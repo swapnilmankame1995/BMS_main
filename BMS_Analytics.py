@@ -360,6 +360,6 @@ def update_data():
 window.after(1000, update_data)
 
 
-window.after(2000, window.focus_force)
+# window.after(2000, window.focus_force)
 
 window.mainloop()
