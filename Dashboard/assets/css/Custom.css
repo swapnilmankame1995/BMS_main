@@ -1,0 +1,42 @@
+.app-card-stat {
+    text-align: center
+}
+
+.app-card-stat .stats-type {
+    font-size: .875rem;
+    color: #ffffff;
+    text-transform: uppercase
+}
+
+.app-card-stat .stats-figure {
+    font-size: 2rem;
+    color: #dadadb
+}
+
+.app-card-stat .stats-meta {
+    font-size: .875rem;
+    color: #828d9f
+}
+
+
+.app-card-stats-table .table {
+    font-size: .875rem
+}
+
+.app-card-stats-table .meta {
+    color: #828d9f;
+    font-weight: 500;
+    font-size: .875rem
+}
+
+.app-card-stats-table .stat-cell {
+    text-align: right
+}
+
+.app-card-basic {
+    height: 100%
+}
+
+.app-card-basic .title {
+    font-size: 1rem
+}
