@@ -11,7 +11,7 @@ import os
 
 import serial.tools.list_ports
 
-from time import sleep
+import time 
 
 
 # -----------------------------Selecting com ports----------------------------------
@@ -110,7 +110,7 @@ frame5.grid_propagate(0)
 # -------------------------------------- BMS State -----------------------------
 
 
-iteration = tk.Label(frameS, text="Time(seconds)" , width = 15, font=("Helvetica", 12))
+iteration = tk.Label(frameS, text="Time (seconds)" , width = 15, font=("Helvetica", 12))
 iteration.grid(row=0, column=0 )
 
 iteration_Out = tk.Label(frameS, text="N/A" , width = 10, font=("Helvetica", 12),relief=tk.RIDGE)
@@ -227,19 +227,15 @@ Arduino_serial_out.grid(row=0, column=9)
 
 # -------------------------------------- Pack Report -----------------------------
 
-# --------------------------------------  Buttons -----------------------------
-
-
+# --------------------------------------  Pre-reqs -----------------------------
 
 try:
-    os.remove("Data.csv") # block raising an exception
+    os.remove("Data.csv") # Remove the exiting Data file before writing to it. 
 except:
-    pass # doing nothing on exception
+    pass # go ahead if data file does not exist
    
 
-
-
-# --------------------------------------  Buttons -----------------------------
+# --------------------------------------  Pre-reqs -----------------------------
 # ,c2_bG, b2_bg, c1_bg
 # c2_bG = "white" 
 # b2_bg = "white"
@@ -316,8 +312,6 @@ def update_data():
         discharge_bg = "green" # Textbox background col
 
 # ---------------------------------------------------
-
-
 
     iteration_Out.config(text=data[0])
     LM35_out.config(text=data[1])
