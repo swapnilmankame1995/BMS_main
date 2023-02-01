@@ -355,5 +355,11 @@ window.after(1000, update_data)
 
 
 # window.after(2000, window.focus_force)
+# window.mainloop()
 
-window.mainloop()
+while True:
+    window.update()
+    if window.winfo_exists() == 0:
+        break
+
+window.destroy()
