@@ -23,7 +23,7 @@ void setup() {
   digitalWrite(Bal_2, LOW);
   digitalWrite(Discharge, LOW);
   digitalWrite(Charge, LOW);
-pinMode(ledPin, OUTPUT);
+  pinMode(ledPin, OUTPUT);
 
   if (! ina219.begin()) {
     Serial.println("Failed to find INA219 current sensor chip");
@@ -74,9 +74,9 @@ void resetBms() {
 
 
 void loop() {
-  Loop += 1;
 
-  
+
+
   //Data sent via serial UART to python
   //| 1  | Iteration                          |
   //| 2  | LM35                               |
@@ -95,36 +95,37 @@ void loop() {
   //| 15 | bus voltage                        |
   //| 16 |                                    |
 
-  temperature();
-  delay(250);
-  batt1_voltage();
-  delay(250);
-  batt2_voltage();
-  delay(250);
-  pack_Voltage();
-  delay(250);
-  current_sensor();
-  delay(250);
-//
-if (Serial.available() > 0) {
+
+  if (Serial.available() > 0) {
     // read the oldest byte in the serial buffer:
     incomingByte = Serial.read();
-//    Serial.println(incomingByte);
+    Serial.flush();
+    //    Serial.println(incomingByte);
     // if it's a capital H (ASCII 72), turn on the LED:
-    if (incomingByte == 'H') {
-      digitalWrite(ledPin, HIGH);
-   
-    }
-    // if it's an L (ASCII 76) turn off the LED:
-    if (incomingByte == 'L') {
-      digitalWrite(ledPin, LOW);
-      
-    }
+    control();
+    //    delay(1000);
+
+  }
+  else {
+    temperature();
+    delay(250);
+    batt1_voltage();
+    delay(250);
+    batt2_voltage();
+    delay(250);
+    pack_Voltage();
+    delay(250);
+    current_sensor();
+    delay(250);
+    //
+
+    Loop += 1;
+    // CSV format sent to Python
+    // Iteration, LM35,Environment/board NTC temperature,Cell 1 Temperature, cell 2 temperature, cell 1 voltage, cell 2 voltage, pack voltage, charging state,discharging state, cell_1 Balancing, Cell_2 Balancing,power,current,bus voltage
+
+    Serial.println((String) Loop + "," +  Temperature_sensor + "," + Te + "," + Tb1 + "," + Tb2 + "," + voltage1 + "," + voltage2 + "," + totVoltage + "," + chargingState + "," + dischargingState + "," + cellOne_balaningState + "," + cellTwo_balaningState + "," + power_mW + "," + current_mA + "," + busvoltage);
+
   }
 
-// CSV format sent to Python
-  // Iteration, LM35,Environment/board NTC temperature,Cell 1 Temperature, cell 2 temperature, cell 1 voltage, cell 2 voltage, pack voltage, charging state,discharging state, cell_1 Balancing, Cell_2 Balancing,power,current,bus voltage
-
-  Serial.println((String) Loop +","+  Temperature_sensor +","+ Te+","+Tb1+","+Tb2+","+voltage1+","+voltage2+","+totVoltage+","+chargingState+","+dischargingState+","+cellOne_balaningState+","+cellTwo_balaningState+","+power_mW+","+current_mA+","+busvoltage);
 
 }

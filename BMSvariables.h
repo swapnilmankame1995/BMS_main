@@ -9,7 +9,7 @@ void Bbal2(void);
 void charge(void);
 void discharge(void);
 void resetBms(void);
-
+void control(void);
 
 
 //const int lm35_pin = A1;  /* LM35 O/P pin */

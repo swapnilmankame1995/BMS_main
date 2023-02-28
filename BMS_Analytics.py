@@ -40,7 +40,7 @@ for i in ports:
 
 COMport = input("\nType the COM port of your Arduino from the list above (Ex : COM6) and press enter...\n\n\n")
 print("Selected " + COMport.upper())
-ser = serial.Serial(COMport.upper(), 9600) # block raising an exception
+ser = serial.Serial(COMport.upper(), 9600) 
 print("Collecting Data from BMS...")
 # -----------------------------Selecting com ports-----------------
 
@@ -110,7 +110,7 @@ frame5.grid_propagate(0)
 # -------------------------------------- BMS State -----------------------------
 
 
-iteration = tk.Label(frameS, text="Time (seconds)" , width = 15, font=("Helvetica", 12))
+iteration = tk.Label(frameS, text="Time(seconds)" , width = 15, font=("Helvetica", 12))
 iteration.grid(row=0, column=0 )
 
 iteration_Out = tk.Label(frameS, text="N/A" , width = 10, font=("Helvetica", 12),relief=tk.RIDGE)
@@ -215,11 +215,11 @@ current_out = tk.Label(frame3, text = "N/A" , width = 10, font=("Helvetica", 10)
 current_out.grid(row=0, column=7, pady=15)
 
 
-bus_voltage = tk.Label(frame3, text = "Output Voltage" , width = 20, font=("Helvetica", 10), anchor="e")
-bus_voltage.grid(row=0, column=8)
+# bus_voltage = tk.Label(frame3, text = "Output Voltage" , width = 20, font=("Helvetica", 10), anchor="e")
+# bus_voltage.grid(row=0, column=8)
 
-bus_voltage_out = tk.Label(frame3, text = "N/A" , width = 10, font=("Helvetica", 10),relief=tk.RIDGE) #Balanced state = overcharged/undercharged
-bus_voltage_out.grid(row=0, column=9, pady=15)
+# bus_voltage_out = tk.Label(frame3, text = "N/A" , width = 10, font=("Helvetica", 10),relief=tk.RIDGE) #Balanced state = overcharged/undercharged
+# bus_voltage_out.grid(row=0, column=9, pady=15)
 
 Arduino_serial_out = tk.Label(frame5, text = "N/A" , font=("Helvetica", 10) , bg= "black" , foreground= "white" ) #Balanced state = overcharged/undercharged
 Arduino_serial_out.grid(row=0, column=9)
@@ -227,21 +227,39 @@ Arduino_serial_out.grid(row=0, column=9)
 
 # -------------------------------------- Pack Report -----------------------------
 
-# --------------------------------------  Pre-reqs -----------------------------
+# --------------------------------------  Buttons -----------------------------
+
+
 
 try:
-    os.remove("Data.csv") # Remove the exiting Data file before writing to it. 
+    os.remove("Data.csv") # block raising an exception
 except:
-    pass # go ahead if data file does not exist
+    pass # doing nothing on exception
    
 
-# --------------------------------------  Pre-reqs -----------------------------
+
+
+# --------------------------------------  Buttons -----------------------------
 # ,c2_bG, b2_bg, c1_bg
 # c2_bG = "white" 
 # b2_bg = "white"
+
+
+
 def update_data():
+    
+   # ser.close
+    
+    # print(data)
+    # time.sleep(0.05)
+    # ser.flush()
+
+
+    
     try:
+        # time.sleep(2)
         data = ser.readline().decode().strip().split(',') # read and decode the serial data
+        
     except:
         time.sleep(3) # Sleep for 3 seconds
         data = ser.readline().decode().strip().split(',') # read and decode the serial data
@@ -258,6 +276,8 @@ def update_data():
     CHState = "N/A"
     DState = "N/A"
 # --------------------Charge state------------------------
+    print(data)
+    
     if float(data[5]) < 4.1:
         cState1 = "UnderCharged" #cState = charge state
         c1_bG = "yellow" # Textbox background colour
@@ -300,6 +320,7 @@ def update_data():
 
     if float(data[8]) == 0:
         CHState = "Disabled" #CHState = charge transistor state
+        # ser.write(bytes("1", 'utf-8'))
         
     elif float(data[8]) == 1:
         CHState = "Enabled" #bState = Balance state
@@ -313,6 +334,8 @@ def update_data():
 
 # ---------------------------------------------------
 
+
+
     iteration_Out.config(text=data[0])
     LM35_out.config(text=data[1])
     ambient_temp_out.config(text=data[2])
@@ -322,11 +345,11 @@ def update_data():
     Cell_2_Temperature_out.config(text=data[4])
     cell_2_voltage_out.config(text=data[6])
     cell_2_Balancing_out.config(text=bState2 , bg= b2_bg)
-    pack_voltage_out.config(text=data[7])
+    pack_voltage_out.config(text=data[14])
     charging_state_out.config(text=CHState , bg=charge_bg)
     discharging_state_out.config(text=DState , bg= discharge_bg)
     current_out.config(text=data[13])
-    bus_voltage_out.config(text=data[14])
+    # bus_voltage_out.config(text=data[14])
     cell_1_State_out.config(text=cState1 , bg=c1_bG)
     cell_2_State_out.config(text=cState2 , bg=c2_bG)
     Arduino_serial_out.config(text=data )
@@ -349,17 +372,12 @@ def update_data():
 
     Js_analytics = tk.Button(frame4, text ="Plot Graphs", command = analyticsCallBack , width = 30, font=("Helvetica", 10), anchor="c")
     Js_analytics.grid(row=0, column=0, padx=20)
+    ser.write(bytes("3", 'utf-8'))
 
 
 window.after(1000, update_data)
 
 
 # window.after(2000, window.focus_force)
-# window.mainloop()
 
-while True:
-    window.update()
-    if window.winfo_exists() == 0:
-        break
-
-window.destroy()
+window.mainloop()
