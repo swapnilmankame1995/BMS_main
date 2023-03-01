@@ -89,21 +89,21 @@ frame5.grid_propagate(0)
 # -------------------------------------- Labels -----------------------------
 
 #   Data sent via serial UART to python
-#   | 1  | Iteration                          |
-#   | 2  | LM35                               |
-#   | 3  | Environment/ board NTC temperature |
-#   | 4  | Cell 1 Temperature                 |
-#   | 5  | cell 2 temperature                 |
-#   | 6  | cell 1 voltage                     |
-#   | 7  | cell 2 voltage                     |
-#   | 8  | pack voltage                       |
-#   | 9  | charging state                     |
-#   | 10 | discharging state                  |
-#   | 11 | cell_1 Balancing                   |
-#   | 12 | cell_2 Balancing                   |
-#   | 13 | power                              |
-#   | 14 | current                            |
-#   | 15 | bus voltage                        |
+#   | 0  | Iteration                          |
+#   | 1  | LM35                               |
+#   | 2  | Environment/ board NTC temperature |
+#   | 3  | Cell 1 Temperature                 |
+#   | 4  | cell 2 temperature                 |
+#   | 5  | cell 1 voltage                     |
+#   | 6  | cell 2 voltage                     |
+#   | 7  | pack voltage                       |
+#   | 8  | charging state                     |
+#   | 9  | discharging state                  |
+#   | 10 | cell_1 Balancing                   |
+#   | 11 | cell_2 Balancing                   |
+#   | 12 | power                              |
+#   | 13 | current                            |
+#   | 14 | bus voltage                        |
 
 
 
@@ -248,16 +248,9 @@ except:
 
 def update_data():
     
-   # ser.close
-    
-    # print(data)
-    # time.sleep(0.05)
-    # ser.flush()
-
 
     
     try:
-        # time.sleep(2)
         data = ser.readline().decode().strip().split(',') # read and decode the serial data
         
     except:
@@ -276,7 +269,7 @@ def update_data():
     CHState = "N/A"
     DState = "N/A"
 # --------------------Charge state------------------------
-    print(data)
+    # print(data)
     
     if float(data[5]) < 4.1:
         cState1 = "UnderCharged" #cState = charge state
@@ -361,18 +354,37 @@ def update_data():
     # csvfile.close
     
     print("Total time : " + data[0] + " Seconds", end='\r')
+
+
+    # control_algorithm()
+    # if float(data[0]) == 10:
+    #     ser.write(bytes("1", 'utf-8'))
+    # elif float(data[0]) == 20:
+    #     ser.write(bytes("2", 'utf-8'))
+    # elif float(data[0]) == 15:
+    #     ser.write(bytes("3", 'utf-8'))
+    # elif float(data[0]) == 20:
+    #     ser.write(bytes("4", 'utf-8'))
+    # elif float(data[0]) == 30:
+    #     ser.write(bytes("5", 'utf-8'))
+
     window.after(1000, update_data) # call the function again after 1 second
     def analyticsCallBack():
         csvfile.close
         shutil.copy('Data.csv', 'Data_copy.csv')
-        # os.system('python Dashboard/assets/js/Javascript_generate.py')
         exec(open('Javascript_generate.py').read())
         
         webbrowser.open_new_tab('Dashboard\index.html')
 
     Js_analytics = tk.Button(frame4, text ="Plot Graphs", command = analyticsCallBack , width = 30, font=("Helvetica", 10), anchor="c")
     Js_analytics.grid(row=0, column=0, padx=20)
-    ser.write(bytes("3", 'utf-8'))
+    # ser.write(bytes("3", 'utf-8'))
+     
+    import control
+
+    control.control_algorithm(data,ser)
+    control.data = data
+    control.ser = ser
 
 
 window.after(1000, update_data)
