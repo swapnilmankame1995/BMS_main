@@ -191,37 +191,37 @@ cell_2_Balancing_out.grid(row=4, column=1, pady=15)
 pack_voltage = tk.Label(frame3, text = "Battery Pack Voltage" , width = 20 , font=("Helvetica", 10) , anchor="e") # Pack voltage
 pack_voltage.grid(row=0, column=0)
 
-pack_voltage_out = tk.Label(frame3, text = "N/A" , width = 10, font=("Helvetica", 10),relief=tk.RIDGE) #Balanced state = overcharged/undercharged
+pack_voltage_out = tk.Label(frame3, text = "N/A" , width = 10, font=("Helvetica", 10),relief=tk.RIDGE) 
 pack_voltage_out.grid(row=0, column=1, pady=15)
 
 charging_state = tk.Label(frame3, text = "Charging" , width = 20, font=("Helvetica", 10), anchor="e") #charging = on/off
 charging_state.grid(row=0, column=2)
 
-charging_state_out = tk.Label(frame3, text = "N/A" , width = 10, font=("Helvetica", 10),relief=tk.RIDGE) #Balanced state = overcharged/undercharged
+charging_state_out = tk.Label(frame3, text = "N/A" , width = 10, font=("Helvetica", 10),relief=tk.RIDGE) 
 charging_state_out.grid(row=0, column=3, pady=15)
 
 
 discharging_state = tk.Label(frame3, text = "Discharging" , width = 20, font=("Helvetica", 10), anchor="e") #discharging = on/off
 discharging_state.grid(row=0, column=4)
 
-discharging_state_out = tk.Label(frame3, text = "N/A" , width = 10, font=("Helvetica", 10),relief=tk.RIDGE) #Balanced state = overcharged/undercharged
+discharging_state_out = tk.Label(frame3, text = "N/A" , width = 10, font=("Helvetica", 10),relief=tk.RIDGE) 
 discharging_state_out.grid(row=0, column=5, pady=15)
 
 
 current = tk.Label(frame3, text = "Current" , width = 20, font=("Helvetica", 10), anchor="e")
 current.grid(row=0, column=6)
 
-current_out = tk.Label(frame3, text = "N/A" , width = 10, font=("Helvetica", 10),relief=tk.RIDGE) #Balanced state = overcharged/undercharged
+current_out = tk.Label(frame3, text = "N/A" , width = 10, font=("Helvetica", 10),relief=tk.RIDGE) 
 current_out.grid(row=0, column=7, pady=15)
 
 
-# bus_voltage = tk.Label(frame3, text = "Output Voltage" , width = 20, font=("Helvetica", 10), anchor="e")
-# bus_voltage.grid(row=0, column=8)
+power = tk.Label(frame3, text = "Power [mW]" , width = 20, font=("Helvetica", 10), anchor="e")
+power.grid(row=0, column=8)
 
-# bus_voltage_out = tk.Label(frame3, text = "N/A" , width = 10, font=("Helvetica", 10),relief=tk.RIDGE) #Balanced state = overcharged/undercharged
-# bus_voltage_out.grid(row=0, column=9, pady=15)
+power_out = tk.Label(frame3, text = "N/A" , width = 10, font=("Helvetica", 10),relief=tk.RIDGE) 
+power_out.grid(row=0, column=9, pady=15)
 
-Arduino_serial_out = tk.Label(frame5, text = "N/A" , font=("Helvetica", 10) , bg= "black" , foreground= "white" ) #Balanced state = overcharged/undercharged
+Arduino_serial_out = tk.Label(frame5, text = "N/A" , font=("Helvetica", 10) , bg= "black" , foreground= "white" ) 
 Arduino_serial_out.grid(row=0, column=9)
 
 
@@ -342,7 +342,7 @@ def update_data():
     charging_state_out.config(text=CHState , bg=charge_bg)
     discharging_state_out.config(text=DState , bg= discharge_bg)
     current_out.config(text=data[13])
-    # bus_voltage_out.config(text=data[14])
+    power_out.config(text=data[12])
     cell_1_State_out.config(text=cState1 , bg=c1_bG)
     cell_2_State_out.config(text=cState2 , bg=c2_bG)
     Arduino_serial_out.config(text=data )
@@ -355,18 +355,6 @@ def update_data():
     
     print("Total time : " + data[0] + " Seconds", end='\r')
 
-
-    # control_algorithm()
-    # if float(data[0]) == 10:
-    #     ser.write(bytes("1", 'utf-8'))
-    # elif float(data[0]) == 20:
-    #     ser.write(bytes("2", 'utf-8'))
-    # elif float(data[0]) == 15:
-    #     ser.write(bytes("3", 'utf-8'))
-    # elif float(data[0]) == 20:
-    #     ser.write(bytes("4", 'utf-8'))
-    # elif float(data[0]) == 30:
-    #     ser.write(bytes("5", 'utf-8'))
 
     window.after(1000, update_data) # call the function again after 1 second
     def analyticsCallBack():
