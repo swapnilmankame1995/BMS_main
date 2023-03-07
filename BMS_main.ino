@@ -26,11 +26,7 @@ void setup() {
       ;
   }
  
-
   serial_no = myMem.get(10, myRead2);
-
-
-
 
   pinMode(muxA, OUTPUT);
   pinMode(muxB, OUTPUT);
@@ -58,27 +54,23 @@ void setup() {
 
 void Bbal1() {
   digitalWrite(Bal_1, HIGH);
-  cellOne_balaningState = 1;
-  //  Serial.println("\t ");
-  //  Serial.print("Battery 1 Balance on");
+  cellOne_balaningState = 1; // Battery 1 Balance on
+
 }
 void Bbal2() {
   digitalWrite(Bal_2, HIGH);
-  cellTwo_balaningState = 1;
-  //  Serial.println("\t ");
-  //  Serial.print("Battery 2 Balance on");
+  cellTwo_balaningState = 1; //Battery 2 Balance on
+
 }
 void charge() {
   digitalWrite(Charge, HIGH);
-  chargingState = 1;
-  //  Serial.println("\t ");
-  //  Serial.print("Charging");
+  chargingState = 1; //Charging
+
 }
 void discharge() {
   digitalWrite(Discharge, HIGH);
-  dischargingState = 1;
-  //  Serial.println("\t ");
-  //  Serial.print("Discharging");
+  dischargingState = 1; //Discharging
+
 }
 
 void resetBms() {
@@ -94,11 +86,6 @@ void resetBms() {
 
 
 void loop() {
-
-  //  Serial.print("I read: ");
-
-//  Serial.println(serial_no);
-
 
   //Data sent via serial UART to python
   //| 1  | Iteration                          |
@@ -120,13 +107,10 @@ void loop() {
 
 
   if (Serial.available() > 0) {
-    // read the oldest byte in the serial buffer:
     incomingByte = Serial.read();
     Serial.flush();
-    //    Serial.println(incomingByte);
-    // if it's a capital H (ASCII 72), turn on the LED:
+
     control();
-    //    delay(1000);
 
   }
   else {
