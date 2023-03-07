@@ -16,7 +16,7 @@
 //   | 12 | power                              |
 //   | 13 | current                            |
 //   | 14 | bus voltage                        |
-
+//   | 15 | Serial Number                      |
 
 // ---------------------------------------------------------------------------
 
@@ -33,6 +33,7 @@
 // var power= [];
 // var current= [];
 // var bus_voltage= [];
+// var serial_number= [];
 
 
 
@@ -110,7 +111,7 @@ var lineChartConfig = {
 		
 		title: {
 			display: true,
-			text: 'Cell 1 vs Cell 2 Voltages',
+			text: 'Cell 1 vs Cell 2 Voltages ' + '['+ serial_number[0]+ ']',
 			fontColor: window.chartColors.Ticks,
 		}, 
 		tooltips: {
@@ -242,7 +243,7 @@ var lineChartConfig_2 = {
 		
 		title: {
 			display: true,
-			text: 'Cell 1 Voltage Compared to Cell 1 Temperature',
+			text: 'Cell 1 Voltage Compared to Cell 1 Temperature ' + '['+ serial_number[0]+ ']',
 			fontColor: window.chartColors.Ticks,
 		}, 
 		tooltips: {
@@ -375,7 +376,7 @@ var lineChartConfig_3 = {
 		
 		title: {
 			display: true,
-			text: 'Cell 2 Voltage Compared to Cell 2 Temperature',
+			text: 'Cell 2 Voltage Compared to Cell 2 Temperature ' + '['+ serial_number[0]+ ']',
 			fontColor: window.chartColors.Ticks,
 		}, 
 		tooltips: {
@@ -508,7 +509,7 @@ var lineChartConfig_4 = {
 		
 		title: {
 			display: true,
-			text: 'Current Output over Time',
+			text: 'Current Output over Time ' + '['+ serial_number[0]+ ']',
 			fontColor: window.chartColors.Ticks,
 		}, 
 		tooltips: {
@@ -642,7 +643,7 @@ var lineChartConfig_5 = {
 		
 		title: {
 			display: true,
-			text: 'Cell temperature compared to current output',
+			text: 'Cell temperature compared to current output ' + '['+ serial_number[0]+ ']',
 			fontColor: window.chartColors.Ticks,
 		}, 
 		tooltips: {
@@ -775,7 +776,7 @@ var lineChartConfig_6 = {
 		
 		title: {
 			display: true,
-			text: 'Cell Temperature Vs Power Output',
+			text: 'Cell Temperature Vs Power Output ' + '['+ serial_number[0]+ ']',
 			fontColor: window.chartColors.Ticks,
 		}, 
 		tooltips: {
@@ -895,7 +896,7 @@ var barChartConfig = {
 		},
 		title: {
 			display: true,
-			text: 'Cell Voltages',
+			text: 'Cell Voltages ' + '['+ serial_number[0]+ ']',
 			fontColor: window.chartColors.Ticks,
 			
 			
@@ -976,9 +977,14 @@ window.addEventListener('load', function(){
 	window.myBar = new Chart(barChart, barChartConfig);
 
 	document.getElementById('Tot_time').innerHTML = total_time; 
-	document.getElementById('Ambient_temp').innerHTML = ambientTemp[ArraySize -1] + " c";
-	document.getElementById('cell_temp').innerHTML = cell_1_temp[ArraySize-1]  + " c";
+	document.getElementById('Ambient_temp').innerHTML = ambientTemp[ArraySize -1] + " C";
+	document.getElementById('cell_temp_1').innerHTML = cell_1_temp[ArraySize-1]  + " C";
+	document.getElementById('cell_temp_2').innerHTML = cell_2_temp[ArraySize-1]  + " C";
+	document.getElementById('cell_temp_2').innerHTML = cell_2_temp[ArraySize-1]  + " C";
+	document.getElementById('serialNumber').innerHTML = serial_number[ArraySize-1];
 	document.getElementById('Tot_voltage').innerHTML = pack_voltage[ArraySize-1] + " V";
+	// document.getElementById('SOC').innerHTML = pack_voltage[ArraySize-1] + " %";
+	// document.getElementById('coloumb').innerHTML = pack_voltage[ArraySize-1] + " V";
 	console.log(ambientTemp[ArraySize-1]);
 	console.log(cell_1_temp[ArraySize-1]);
 	console.log(pack_voltage[ArraySize-1]);

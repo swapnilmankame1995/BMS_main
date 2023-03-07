@@ -9,9 +9,29 @@ const int ledPin = 13; // the pin that the LED is attached to
 int incomingByte;      // a variable to read incoming serial data into
 
 
+#include "SparkFun_External_EEPROM.h"
+ExternalEEPROM myMem;
+
+String myRead2;
+String serial_no = "Null";
+
 void setup() {
   Serial.begin(9600);
   analogReference(EXTERNAL); // use AREF for reference voltage
+  Wire.begin();
+  if (myMem.begin() == false)
+  {
+    Serial.println("No memory detected. Freezing.");
+    while (1)
+      ;
+  }
+ 
+
+  serial_no = myMem.get(10, myRead2);
+
+
+
+
   pinMode(muxA, OUTPUT);
   pinMode(muxB, OUTPUT);
   pinMode(Bal_1, OUTPUT);
@@ -75,6 +95,9 @@ void resetBms() {
 
 void loop() {
 
+  //  Serial.print("I read: ");
+
+//  Serial.println(serial_no);
 
 
   //Data sent via serial UART to python
@@ -121,9 +144,9 @@ void loop() {
 
     Loop += 1;
     // CSV format sent to Python
-    // Iteration, LM35,Environment/board NTC temperature,Cell 1 Temperature, cell 2 temperature, cell 1 voltage, cell 2 voltage, pack voltage, charging state,discharging state, cell_1 Balancing, Cell_2 Balancing,power,current,bus voltage
+    // Iteration, LM35,Environment/board NTC temperature,Cell 1 Temperature, cell 2 temperature, cell 1 voltage, cell 2 voltage, pack voltage, charging state,discharging state, cell_1 Balancing, Cell_2 Balancing,power,current,bus voltage,Student serial number
 
-    Serial.println((String) Loop + "," +  Temperature_sensor + "," + Te + "," + Tb1 + "," + Tb2 + "," + voltage1 + "," + voltage2 + "," + totVoltage + "," + chargingState + "," + dischargingState + "," + cellOne_balaningState + "," + cellTwo_balaningState + "," + power_mW + "," + current_mA + "," + busvoltage);
+    Serial.println((String) Loop + "," +  Temperature_sensor + "," + Te + "," + Tb1 + "," + Tb2 + "," + voltage1 + "," + voltage2 + "," + totVoltage + "," + chargingState + "," + dischargingState + "," + cellOne_balaningState + "," + cellTwo_balaningState + "," + power_mW + "," + current_mA + "," + busvoltage + "," + serial_no);
 
   }
 

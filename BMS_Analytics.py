@@ -104,6 +104,7 @@ frame5.grid_propagate(0)
 #   | 12 | power                              |
 #   | 13 | current                            |
 #   | 14 | bus voltage                        |
+#   | 15 | Serial Number                      |
 
 
 
@@ -128,6 +129,9 @@ ambient_temp.grid(row=0, column=4, pady=2)
 
 ambient_temp_out = tk.Label(frameS, text = "N/A" , width = 10, font=("Helvetica", 12),relief=tk.RIDGE)
 ambient_temp_out.grid(row=0, column=5, pady=2)
+
+Serial_no = tk.Label(frameS, text = "Serial Number" , width = 20, font=("Helvetica", 12), foreground= "green")
+Serial_no.grid(row=0, column=9, pady=2)
 
 
 # -------------------------------------- BMS State -----------------------------
@@ -345,12 +349,13 @@ def update_data():
     power_out.config(text=data[12])
     cell_1_State_out.config(text=cState1 , bg=c1_bG)
     cell_2_State_out.config(text=cState2 , bg=c2_bG)
-    Arduino_serial_out.config(text=data )
+    Arduino_serial_out.config(text=(data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8],data[9],data[10],data[11],data[12],data[13],data[14]) )
+    Serial_no.config(text=data[15])
     
 
     with open('Data.csv', 'a', newline='') as csvfile:
         serialData = csv.writer(csvfile, delimiter=',')
-        serialData.writerow([data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12], data[13], data[14]])
+        serialData.writerow([data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12], data[13], data[14],data[15]])
     # csvfile.close
     
     print("Total time : " + data[0] + " Seconds", end='\r')

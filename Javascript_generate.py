@@ -34,6 +34,7 @@ var pack_voltage = [];
 var power= [];
 var current= [];
 var bus_voltage= [];
+var serial_number = [];
 
 
 for (var i = 0; i < data.length; i++) {
@@ -48,7 +49,8 @@ pack_voltage[i] = data[i][7]
 power[i] = data[i][12]
 current[i] = data[i][13]
 bus_voltage[i] = data[i][14]
-// console.log(power[5]);
+serial_number[i] = data[i][15]
+
 }
 console.log(power);
 console.log(lm35);
