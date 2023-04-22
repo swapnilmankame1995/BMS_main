@@ -26,6 +26,8 @@ void setup() {
       ;
   }
  
+  String myValue2 = "EV201ST001";
+  myMem.put(10, myValue2);
   serial_no = myMem.get(10, myRead2);
 
   pinMode(muxA, OUTPUT);
