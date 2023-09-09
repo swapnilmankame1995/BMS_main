@@ -11,15 +11,11 @@ void discharge(void);
 void resetBms(void);
 void control(void);
 
+//NTC sensor AND temperature ----------------------------------- https://learn.adafruit.com/thermistor/using-a-thermistor
 
-//const int lm35_pin = A1;  /* LM35 O/P pin */
-
-//NTC sensor AND temperature -----------------------------------
-int ThermistorPin = 0;
-int Vo;
-float R1 = 10000;
-float logR2, R2, T, Te, Tb1,Tb2;
-float c1 = 1.009249522e-03, c2 = 2.378405444e-04, c3 = 2.019202697e-07;
+int NUMSAMPLES = 10 ;
+float Te,Tb1,Tb2,Tt;
+float average_calibration = 0;
 
 
 // Calculate Voltage -----------------------------------
@@ -36,6 +32,7 @@ int Bal_1 = 8;
 int Bal_2 = 7;
 int Discharge = 4;
 int Charge = 3;
+int Contactor = 10;
 int Loop =0;
 float Calibration = 0;
 bool chargingState = 0;

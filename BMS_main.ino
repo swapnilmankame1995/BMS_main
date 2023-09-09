@@ -1,34 +1,52 @@
+#include <math.h>
 #include "BMSvariables.h"
 #include <Wire.h>
-#include <Adafruit_INA219.h>
+#include <Adafruit_INA219.h>       //Install Adafruit INA219 library from manage library
+#include "DHT.h"                 //Install DHT sensor library by Adafruit from manage library
 
+#define THERMISTORPIN A3          // Analog pin connected to environment NTC sensor 
+#define DHTPIN 11               // Analog pin connected to DHT11 sensor 
+#define DHTTYPE DHT11
+
+DHT dht(DHTPIN, DHTTYPE);
 Adafruit_INA219 ina219;
 
-
-const int ledPin = 13; // the pin that the LED is attached to
 int incomingByte;      // a variable to read incoming serial data into
 
+byte eepromByte;
+
+
+#include "eeprom.h"
+
+EEPROM myEEPROM(0x50); // I2C address.
 
 #include "SparkFun_External_EEPROM.h"
-ExternalEEPROM myMem;
 
-String myRead2;
-String serial_no = "Null";
+String serial_no ;
 
+void resetBms() {
+  digitalWrite(Bal_1, LOW);
+  digitalWrite(Bal_2, LOW);
+  digitalWrite(Charge, LOW);
+  digitalWrite(Discharge, LOW);
+  digitalWrite(Contactor, HIGH);
+  chargingState = 0;
+  dischargingState = 0;
+  cellOne_balaningState = 0;
+  cellTwo_balaningState = 0;
+}
 void setup() {
   Serial.begin(9600);
   analogReference(EXTERNAL); // use AREF for reference voltage
-  Wire.begin();
-  if (myMem.begin() == false)
-  {
-    Serial.println("No memory detected. Freezing.");
-    while (1)
-      ;
+
+ // ----------------- EEPROM Read --------------
+  for (uint16_t address = 0x0000; address < 11; address++) {
+    
+    serial_no += char(myEEPROM.read_byte(address));
   }
- 
-  String myValue2 = "EV201ST001";
-  myMem.put(10, myValue2);
-  serial_no = myMem.get(10, myRead2);
+
+
+// ----------------- EEPROM Read --------------
 
   pinMode(muxA, OUTPUT);
   pinMode(muxB, OUTPUT);
@@ -36,21 +54,23 @@ void setup() {
   pinMode(Bal_2, OUTPUT);
   pinMode(Discharge, OUTPUT);
   pinMode(Charge, OUTPUT);
+  pinMode(Contactor, OUTPUT);
 
   digitalWrite(Bal_1, LOW);
   digitalWrite(Bal_2, LOW);
   digitalWrite(Discharge, LOW);
   digitalWrite(Charge, LOW);
-  pinMode(ledPin, OUTPUT);
+  digitalWrite(Contactor, HIGH);
 
+  dht.begin();
   if (! ina219.begin()) {
     Serial.println("Failed to find INA219 current sensor chip");
     while (1) {
       delay(10);
     }
   }
-  ina219.setCalibration_16V_400mA();
-  //analogReference(INTERNAL);
+  //ina219.setCalibration_16V_400mA();
+  //resetBms();
 }
 
 
@@ -65,33 +85,26 @@ void Bbal2() {
 
 }
 void charge() {
+  //if (voltage1 < 4 || voltage2 < 4){
   digitalWrite(Charge, HIGH);
   chargingState = 1; //Charging
+  }
 
-}
 void discharge() {
   digitalWrite(Discharge, HIGH);
   dischargingState = 1; //Discharging
+  digitalWrite(Contactor, LOW);
 
 }
 
-void resetBms() {
-  digitalWrite(Bal_1, LOW);
-  digitalWrite(Bal_2, LOW);
-  digitalWrite(Charge, LOW);
-  digitalWrite(Discharge, LOW);
-  chargingState = 0;
-  dischargingState = 0;
-  cellOne_balaningState = 0;
-  cellTwo_balaningState = 0;
-}
+
 
 
 void loop() {
 
   //Data sent via serial UART to python
   //| 1  | Iteration                          |
-  //| 2  | LM35                               |
+  //| 2  | DHT11                              |
   //| 3  | Environment/ board NTC temperature |
   //| 4  | Cell 1 Temperature                 |
   //| 5  | cell 2 temperature                 |
@@ -105,36 +118,25 @@ void loop() {
   //| 13 | power                              |
   //| 14 | current                            |
   //| 15 | bus voltage                        |
-  //| 16 |                                    |
+  //| 16 | PCB serial numner                  |
+  //| 17 | Transistor NTC temperature         |
 
 
-  if (Serial.available() > 0) {
-    incomingByte = Serial.read();
-    Serial.flush();
-
-    control();
-
-  }
-  else {
+    if (Serial.available() > 0) {
+      incomingByte = Serial.read();
+      Serial.flush();
+      control();
+    }
     temperature();
-    delay(250);
-    batt1_voltage();
-    delay(250);
-    batt2_voltage();
-    delay(250);
-    pack_Voltage();
-    delay(250);
+    delay(100);
+    batt_voltage();
+    delay(100);
     current_sensor();
-    delay(250);
-    //
-
+    delay(100);
     Loop += 1;
+    delay(400);
     // CSV format sent to Python
-    // Iteration, LM35,Environment/board NTC temperature,Cell 1 Temperature, cell 2 temperature, cell 1 voltage, cell 2 voltage, pack voltage, charging state,discharging state, cell_1 Balancing, Cell_2 Balancing,power,current,bus voltage,Student serial number
-
+    // Iteration, LM35,Environment/board NTC temperature,Cell 1 Temperature, cell 2 temperature, cell 1 voltage, cell 2 voltage, pack voltage, charging state,discharging state, cell_1 Balancing, Cell_2 Balancing,power,current,bus voltage,Student serial number,Transistor NTC temperature
     Serial.println((String) Loop + "," +  Temperature_sensor + "," + Te + "," + Tb1 + "," + Tb2 + "," + voltage1 + "," + voltage2 + "," + totVoltage + "," + chargingState + "," + dischargingState + "," + cellOne_balaningState + "," + cellTwo_balaningState + "," + power_mW + "," + current_mA + "," + busvoltage + "," + serial_no);
-
-  }
-
-
+  
 }

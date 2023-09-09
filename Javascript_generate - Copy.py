@@ -9,18 +9,6 @@ try:
 except:
     pass # doing nothing on exception
 
-input_filename = 'Data_copy.csv'
-output_filename = 'Data_copy.csv'
-
-with open(input_filename, 'r', encoding='utf-8', errors='replace') as input_file:
-    lines = input_file.readlines()
-
-cleaned_lines = [line.replace('\x00', '') for line in lines]
-
-with open(output_filename, 'w', encoding='utf-8') as output_file:
-    output_file.writelines(cleaned_lines)
-
-
 # Read the CSV file into a 2D array
 with open('Data_copy.csv', 'r') as file:
     reader = csv.reader(file)
