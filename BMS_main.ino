@@ -16,11 +16,10 @@ int incomingByte;      // a variable to read incoming serial data into
 byte eepromByte;
 
 
-#include "eeprom.h"
+#include "src\eeprom.h"
 
 EEPROM myEEPROM(0x50); // I2C address.
 
-#include "SparkFun_External_EEPROM.h"
 
 String serial_no ;
 
@@ -40,6 +39,13 @@ void setup() {
   analogReference(EXTERNAL); // use AREF for reference voltage
 
  // ----------------- EEPROM Read --------------
+ if (myEEPROM.begin()) {
+    
+  }
+  else {
+    
+    return;
+  }
   for (uint16_t address = 0x0000; address < 11; address++) {
     
     serial_no += char(myEEPROM.read_byte(address));
