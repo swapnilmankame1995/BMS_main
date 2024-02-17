@@ -42,7 +42,7 @@ void setup() {
   Wire.begin();
  // ----------------- EEPROM Read --------------
   myEEPROM.begin();
-  for (uint16_t address = 0x0000; address < 11; address++) {
+  for (uint16_t address = 0x0000; address < 10; address++) {
     
     serial_no += char(myEEPROM.read_byte(address));
   }
