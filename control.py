@@ -54,27 +54,18 @@ def control_algorithm(data,ser):
 
 
 
-    if iteration == 10:
-        charge()
-    elif iteration == 15:
-        Discharge()
-    elif iteration == 20:
-        Balance_1()
-    elif iteration == 25:
-        Balance_2()
-    elif iteration == 30:
-        stop()
-
-# ----------------------------------- Your Code/Algorithm here ----------------
-
-
-    # if pack_voltage <= 5.5 :
+    # if iteration == 10:
     #     charge()
-    # elif cell_1_voltage =< :
+    # elif iteration == 15:
     #     Discharge()
     # elif iteration == 20:
     #     Balance_1()
     # elif iteration == 25:
     #     Balance_2()
-    # elif pack_voltage <= 6.4:
+    # elif iteration == 30:
     #     stop()
+
+# ----------------------------------- Your Code/Algorithm here ----------------
+
+
+    

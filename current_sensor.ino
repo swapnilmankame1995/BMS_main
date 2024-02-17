@@ -7,6 +7,6 @@ current_mA = ina219.getCurrent_mA();
 power_mW = ina219.getPower_mW();
 loadvoltage = busvoltage + (shuntvoltage / 1000); // Voltage from the batteries
 
-
+totVoltage = busvoltage;
 
 }

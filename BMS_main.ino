@@ -1,3 +1,4 @@
+// Personal code
 #include <math.h>
 #include "BMSvariables.h"
 #include <Wire.h>
@@ -16,10 +17,11 @@ int incomingByte;      // a variable to read incoming serial data into
 byte eepromByte;
 
 
-#include "src\eeprom.h"
+#include "src/eeprom.h"
 
 EEPROM myEEPROM(0x50); // I2C address.
 
+//#include "SparkFun_External_EEPROM.h"
 
 String serial_no ;
 
@@ -36,22 +38,14 @@ void resetBms() {
 }
 void setup() {
   Serial.begin(9600);
-  analogReference(EXTERNAL); // use AREF for reference voltage
-
+  //analogReference(EXTERNAL); // use AREF for reference voltage
+  Wire.begin();
  // ----------------- EEPROM Read --------------
- if (myEEPROM.begin()) {
-    
-  }
-  else {
-    
-    return;
-  }
+  myEEPROM.begin();
   for (uint16_t address = 0x0000; address < 11; address++) {
     
     serial_no += char(myEEPROM.read_byte(address));
   }
-
-
 // ----------------- EEPROM Read --------------
 
   pinMode(muxA, OUTPUT);
@@ -100,9 +94,20 @@ void discharge() {
   digitalWrite(Discharge, HIGH);
   dischargingState = 1; //Discharging
   digitalWrite(Contactor, LOW);
-
 }
 
+void I2C() {   //I2c communication -------------------------
+    Wire.beginTransmission(4); // transmit to device #4
+    
+    //-----------Logic---------- (write your own logic here)
+    if(totVoltage < 10 || Tb1 > 38 || Tb2 > 38)
+      Wire.write(0);     // Send "0" if total battery pack voltage less than 5.6V and temperature is above 38 degrees
+    else
+      Wire.write(1); // Send "1" if total battery pack voltage and temperature is normal 
+    //-----------Logic---------- 
+    
+    Wire.endTransmission();    // stop transmitting
+}
 
 
 
@@ -135,14 +140,14 @@ void loop() {
     }
     temperature();
     delay(100);
-    batt_voltage();
-    delay(100);
     current_sensor();
+    delay(100);
+    batt_voltage();
     delay(100);
     Loop += 1;
     delay(400);
+    I2C();
     // CSV format sent to Python
     // Iteration, LM35,Environment/board NTC temperature,Cell 1 Temperature, cell 2 temperature, cell 1 voltage, cell 2 voltage, pack voltage, charging state,discharging state, cell_1 Balancing, Cell_2 Balancing,power,current,bus voltage,Student serial number,Transistor NTC temperature
-    Serial.println((String) Loop + "," +  Temperature_sensor + "," + Te + "," + Tb1 + "," + Tb2 + "," + voltage1 + "," + voltage2 + "," + totVoltage + "," + chargingState + "," + dischargingState + "," + cellOne_balaningState + "," + cellTwo_balaningState + "," + power_mW + "," + current_mA + "," + busvoltage + "," + serial_no);
-  
+    Serial.println((String) Loop + "," +  Temperature_sensor + "," + Te + "," + Tb1 + "," + Tb2 + "," + voltage1 + "," + voltage2 + "," + busvoltage + "," + chargingState + "," + dischargingState + "," + cellOne_balaningState + "," + cellTwo_balaningState + "," + power_mW + "," + current_mA + "," + busvoltage + "," + serial_no + "," + Tt);
 }
