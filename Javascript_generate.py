@@ -1,4 +1,10 @@
 
+# --------------------------Readme-------------------------
+
+# This Program builds a Javascript file called bms_data.js with all relevant data ghathered from the BMS. That is then later fed to index-charts.js to generate Plots
+
+# --------------------------Readme-------------------------
+
 
 import csv
 import os
@@ -48,7 +54,7 @@ var power= [];
 var current= [];
 var bus_voltage= [];
 var serial_number = [];
-
+var trans_temp = [];
 
 for (var i = 0; i < data.length; i++) {
 time[i] = data[i][0];
@@ -63,7 +69,7 @@ power[i] = data[i][12]
 current[i] = data[i][13]
 bus_voltage[i] = data[i][14]
 serial_number[i] = data[i][15]
-
+trans_temp[i] = data[i][16];
 }
 console.log(power);
 console.log(lm35);

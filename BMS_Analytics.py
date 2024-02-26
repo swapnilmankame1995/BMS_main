@@ -375,6 +375,8 @@ def Kalman_SoC(Loop,current,voltage1,voltage2):
     cell_1_SoC_out.config(text= round(float(lastState1[0,0]),2) )
     cell_2_SoC_out.config(text= round(float(lastState2[0,0]),2) )
 
+    
+
 # Initializes the state matrix for the Kalman Filter
 # Inputs: the initial measured state of charge SoC and current I
 # Returns: the state matrix to be used in the Kalman Filter
@@ -500,7 +502,7 @@ def update_data():
 # -------------------Balance State-----------------------
 
     if (( float(data[10]) == 0 ) and  balance > 0.1 ) and ( float(data[5]) > float(data[6]) ):
-        bState1 = "Need Balancing" #bState = Balance state 
+        bState1 = "Unbalanced" #bState = Balance state 
         b1_bg = "red" # Textbox background colour
     elif ( float(data[10]) == 0 ) :
         bState1 = "Balanced" #bState = Balance state 
@@ -509,7 +511,7 @@ def update_data():
         b1_bg = "orange" # Textbox background colour
 
     if (( float(data[11]) == 0 ) and balance > 0.1 ) and ( float(data[5]) < float(data[6]) ):
-        bState2 = "Need Balancing" #bState = Balance state
+        bState2 = "Unbalanced" #bState = Balance state
         b2_bg = "red" # Textbox background colour
     elif ( float(data[11]) == 0 ) :
         bState2 = "Balanced" #bState = Balance state 
