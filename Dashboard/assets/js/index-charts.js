@@ -17,7 +17,7 @@
 //   | 13 | current                            |
 //   | 14 | bus voltage                        |
 //   | 15 | Serial Number                      |
-
+//   | 16 | Output Transistor temperature      |
 // ---------------------------------------------------------------------------
 
 // ---------------- Available Datasets ---------------
@@ -34,7 +34,7 @@
 // var current= [];
 // var bus_voltage= [];
 // var serial_number= [];
-
+// var trans_temp[i]
 
 
 window.chartColors = {
@@ -50,7 +50,7 @@ window.chartColors = {
 var ArraySize =  data.length;
 
 
-
+// ------------------------------------------------ Line Chart -----------------------------------------------
 
 
 // Cell 1 vs Cell 2 Voltages
@@ -74,7 +74,7 @@ var lineChartConfig = {
 			borderColor: window.chartColors.green,
 
 			data: cell_1_voltage, // -------------------------------- Dataset 1 --------------------
-			
+			pointRadius:1.5,
 			}, 
 			//---------------------------
 			//---------------------------
@@ -87,7 +87,7 @@ var lineChartConfig = {
 			
 			data: cell_2_voltage, // ------------------------- Dataset 2 ---------------------
 			fill: false,
-			
+			pointRadius:1.5,
 			} //---------------------------
 
 
@@ -186,6 +186,8 @@ var lineChartConfig = {
 	}
 };
 
+// ------------------------------------------------ Line Chart -----------------------------------------------
+
 // Cell 1 Voltage Compared to Cell 1 Temperature
 var lineChartConfig_2 = {
 	type: 'line',
@@ -207,7 +209,7 @@ var lineChartConfig_2 = {
 			borderColor: window.chartColors.green,
 
 			data: cell_1_voltage, // -------------------------------- Dataset 1 --------------------
-			
+			pointRadius:1.5,
 			}, 
 			//---------------------------
 			//---------------------------
@@ -220,7 +222,7 @@ var lineChartConfig_2 = {
 			
 			data: cell_1_temp, // ------------------------- Dataset 2 ---------------------
 			fill: false,
-			
+			pointRadius:1.5,
 			} //---------------------------
 
 
@@ -318,6 +320,8 @@ var lineChartConfig_2 = {
 };
 
 
+// ------------------------------------------------ Line Chart -----------------------------------------------
+
 // Cell 2 Voltage Compared to Cell 2 Temperature
 var lineChartConfig_3 = {
 	type: 'line',
@@ -339,7 +343,7 @@ var lineChartConfig_3 = {
 			borderColor: window.chartColors.green,
 
 			data: cell_2_voltage, // -------------------------------- Dataset 1 --------------------
-			
+			pointRadius:1.5,
 			}, 
 			//---------------------------
 			//---------------------------
@@ -352,7 +356,7 @@ var lineChartConfig_3 = {
 			
 			data: cell_2_temp, // ------------------------- Dataset 2 ---------------------
 			fill: false,
-			
+			pointRadius:1.5,
 			} //---------------------------
 
 
@@ -453,6 +457,8 @@ var lineChartConfig_3 = {
 
 // Current Output over Time
 
+// ------------------------------------------------ Line Chart -----------------------------------------------
+
 var lineChartConfig_4 = {
 	type: 'line',
 
@@ -473,7 +479,7 @@ var lineChartConfig_4 = {
 			borderColor: window.chartColors.green,
 
 			data: current, // -------------------------------- Dataset 1 --------------------
-			
+			pointRadius:1.5,
 			}, 
 			//---------------------------
 			//---------------------------
@@ -586,6 +592,8 @@ var lineChartConfig_4 = {
 
 // Cell temperature compared to current output
 
+// ------------------------------------------------ Line Chart -----------------------------------------------
+
 var lineChartConfig_5 = {
 	type: 'line',
 
@@ -606,7 +614,7 @@ var lineChartConfig_5 = {
 			borderColor: window.chartColors.green,
 
 			data: current, // -------------------------------- Dataset 1 --------------------
-			
+			pointRadius:1.5,
 			}, 
 			//---------------------------
 			//---------------------------
@@ -619,7 +627,7 @@ var lineChartConfig_5 = {
 			
 			data: cell_1_temp, // ------------------------- Dataset 2 ---------------------
 			fill: false,
-			
+			pointRadius:1.5,
 			} //---------------------------
 
 
@@ -719,6 +727,9 @@ var lineChartConfig_5 = {
 
 // Cell Temperature Vs Power Output
 
+
+// ------------------------------------------------ Line Chart -----------------------------------------------
+
 var lineChartConfig_6 = {
 	type: 'line',
 
@@ -739,7 +750,7 @@ var lineChartConfig_6 = {
 			borderColor: window.chartColors.green,
 
 			data: cell_1_temp, // -------------------------------- Dataset 1 --------------------
-			
+			pointRadius:1.5,
 			}, 
 			//---------------------------
 			//---------------------------
@@ -752,7 +763,7 @@ var lineChartConfig_6 = {
 			
 			data: power, // ------------------------- Dataset 2 ---------------------
 			fill: false,
-			
+			pointRadius:1.5,
 			} //---------------------------
 
 
@@ -849,6 +860,284 @@ var lineChartConfig_6 = {
 		}
 	}
 };
+
+// ------------------------------------------------ Line Chart -----------------------------------------------
+
+// ------------------------------------------------ Line Chart -----------------------------------------------
+
+// Transistor temperature plot -----------------
+
+var lineChartConfig_7 = {
+	type: 'line',
+
+
+	data: {
+		labels: time, // ------------------------- Dataset for Y Axis ------------------
+		ticks: {
+			fontColor: window.chartColors.Ticks,
+		},
+		
+		datasets: [
+
+			//--------------------------
+			{  
+			label: 'Transistor Temperature',
+			fill: false,
+			backgroundColor: window.chartColors.green,
+			borderColor: window.chartColors.green,
+
+			data: trans_temp, // -------------------------------- Dataset 1 --------------------
+			pointRadius:1.5,
+			}, 
+			//---------------------------
+			//---------------------------
+			// { 
+			// label: 'Cell 2',
+			
+		    // borderDash: [3, 5],
+			// backgroundColor: window.chartColors.gray,
+			// borderColor: window.chartColors.gray,
+			
+			// data: ambientTemp, // ------------------------- Dataset 2 ---------------------
+			// fill: false,
+			
+			// } //---------------------------
+
+
+
+	]
+	},
+	options: {
+		responsive: true,	
+		aspectRatio: 1.5,
+		backgroundColor: '#FF0000',
+		
+		legend: {
+			display: true,
+		
+			position: 'bottom',
+			align: 'end',
+			
+		},
+
+		
+		title: {
+			display: true,
+			text: 'Transistor temperature over Time ' + '['+ serial_number[0]+ ']',
+			fontColor: window.chartColors.Ticks,
+		}, 
+		tooltips: {
+			mode: 'index',
+			intersect: false,
+			titleMarginBottom: 10,
+			bodySpacing: 10,
+			xPadding: 16,
+			yPadding: 16,
+			borderColor: window.chartColors.border,
+			borderWidth: 1,
+			backgroundColor: '#fff',
+			bodyFontColor: window.chartColors.text,
+			titleFontColor: window.chartColors.text,
+			
+
+            // callbacks: {
+	        //     //Ref: https://stackoverflow.com/questions/38800226/chart-js-add-commas-to-tooltip-and-y-axis
+            //     label: function(tooltipItem, data) {
+	        //         if (parseInt(tooltipItem.value) >= 1000) {
+            //             return  tooltipItem.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g  + "V", ",");
+            //         } else {
+	        //             return    tooltipItem.value + " volt" ;
+            //         }
+            //     }
+            // },
+
+		},
+		hover: {
+			mode: 'nearest',
+			intersect: true
+		},
+		scales: {
+			xAxes: [{
+				display: true,
+				gridLines: {
+					drawBorder: false,
+					color: window.chartColors.border,
+				},
+				
+				scaleLabel: {
+					display: false,
+				
+				},
+				ticks: {
+					fontColor: window.chartColors.Ticks,
+					
+		        },
+			}],
+			yAxes: [{
+				display: true,
+				gridLines: {
+					drawBorder: false,
+					color: window.chartColors.border,
+				},
+				scaleLabel: {
+					display: false,
+					fontColor: window.chartColors.Ticks,
+					
+				},
+				ticks: {
+		            beginAtZero: true,
+					fontColor: window.chartColors.Ticks,
+		            userCallback: function(value, index, values) {
+		                return  value.toLocaleString() + " C" ;   //Ref: https://stackoverflow.com/questions/38800226/chart-js-add-commas-to-tooltip-and-y-axis
+		            }
+		        },
+			}]
+			
+		}
+	}
+};
+
+// ------------------------------------------------ Line Chart -----------------------------------------------
+
+
+// Battery pack voltage plot ---------------------
+
+// ------------------------------------------------ Line Chart -----------------------------------------------
+
+var lineChartConfig_8 = {
+	type: 'line',
+
+
+	data: {
+		labels: time, // ------------------------- Dataset for Y Axis ------------------
+		ticks: {
+			fontColor: window.chartColors.Ticks,
+		},
+		
+		datasets: [
+
+			//--------------------------
+			{  
+			label: 'Battery Pack Voltage',
+			fill: false,
+			backgroundColor: window.chartColors.green,
+			borderColor: window.chartColors.green,
+
+			data: bus_voltage, // -------------------------------- Dataset 1 --------------------
+			pointRadius:1.5,
+			}, 
+			//---------------------------
+			//---------------------------
+			// { 
+			// label: 'Cell 2',
+			
+		    // borderDash: [3, 5],
+			// backgroundColor: window.chartColors.gray,
+			// borderColor: window.chartColors.gray,
+			
+			// data: ambientTemp, // ------------------------- Dataset 2 ---------------------
+			// fill: false,
+			
+			// } //---------------------------
+
+
+
+	]
+	},
+	options: {
+		responsive: true,	
+		aspectRatio: 1.5,
+		backgroundColor: '#FF0000',
+		
+		legend: {
+			display: true,
+		
+			position: 'bottom',
+			align: 'end',
+			
+		},
+
+		
+		title: {
+			display: true,
+			text: 'Battery Pack Voltage over Time ' + '['+ serial_number[0]+ ']',
+			fontColor: window.chartColors.Ticks,
+		}, 
+		tooltips: {
+			mode: 'index',
+			intersect: false,
+			titleMarginBottom: 10,
+			bodySpacing: 10,
+			xPadding: 16,
+			yPadding: 16,
+			borderColor: window.chartColors.border,
+			borderWidth: 1,
+			backgroundColor: '#fff',
+			bodyFontColor: window.chartColors.text,
+			titleFontColor: window.chartColors.text,
+			
+
+            // callbacks: {
+	        //     //Ref: https://stackoverflow.com/questions/38800226/chart-js-add-commas-to-tooltip-and-y-axis
+            //     label: function(tooltipItem, data) {
+	        //         if (parseInt(tooltipItem.value) >= 1000) {
+            //             return  tooltipItem.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g  + "V", ",");
+            //         } else {
+	        //             return    tooltipItem.value + " volt" ;
+            //         }
+            //     }
+            // },
+
+		},
+		hover: {
+			mode: 'nearest',
+			intersect: true
+		},
+		scales: {
+			xAxes: [{
+				display: true,
+				gridLines: {
+					drawBorder: false,
+					color: window.chartColors.border,
+				},
+				
+				scaleLabel: {
+					display: false,
+				
+				},
+				ticks: {
+					fontColor: window.chartColors.Ticks,
+					
+					
+		        },
+			}],
+			yAxes: [{
+				display: true,
+				
+				gridLines: {
+					drawBorder: false,
+					color: window.chartColors.border,
+				},
+				scaleLabel: {
+					display: false,
+					fontColor: window.chartColors.Ticks,
+					
+				},
+				ticks: {
+		            beginAtZero: true,
+					fontColor: window.chartColors.Ticks,
+					min: 5, // minimum value
+		            userCallback: function(value, index, values) {
+		                return  value.toLocaleString() + " V" ;   //Ref: https://stackoverflow.com/questions/38800226/chart-js-add-commas-to-tooltip-and-y-axis
+		            }
+		        },
+			}]
+			
+		}
+	}
+};
+
+// ------------------------------------------------ Line Chart -----------------------------------------------
 
 
 
@@ -972,6 +1261,12 @@ window.addEventListener('load', function(){
 
 	var lineChart = document.getElementById('canvas-linechart6').getContext('2d');
 	window.myLine = new Chart(lineChart, lineChartConfig_6);
+
+	var lineChart = document.getElementById('canvas-linechart7').getContext('2d');
+	window.myLine = new Chart(lineChart, lineChartConfig_7);
+
+	var lineChart = document.getElementById('canvas-linechart8').getContext('2d');
+	window.myLine = new Chart(lineChart, lineChartConfig_8);
 	
 	var barChart = document.getElementById('canvas-barchart_batteryBal').getContext('2d');
 	window.myBar = new Chart(barChart, barChartConfig);
