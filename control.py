@@ -28,42 +28,32 @@ def control_algorithm(data,ser):
         ser.write(bytes("5", 'utf-8'))
         print("\nMonitoring...\n", end='\r')
 
-# -----------------------------------Add Your Code/Algorithm here ----------------
 
-# Instructions
+# Instructions -----------
+
+# Available variables that give you data
         ## cell_1_voltage =  Voltage of Cell number 1
         ## cell_2_voltage =  Voltage of Cell number 2
         ## pack_voltage = Voltage of the entire battery pack (cell 1 + cell 2)
-
-        ## Balance_1 = Switch on balancing for cell 1
-        ## Balance_2 = Switch on balancing for cell 2
-
-        ## charge = Switch on Charging
-        ## discharge = Switch on Discharging
-
-        ## Stop = Stop all operations
-
-        ## ambient_temperature = Room temperature value
-
-
         ## cell_1_temperature =  temperature of Cell number 1
         ## cell_2_temperature =  temperature of Cell number 2
-
+        ## ambient_temperature = Room temperature value
         ## current = Total current passing through the circuit
 
 
+# Available functions to control the BMS
+        ## Balance_1() = Switch on balancing for cell 1
+        ## Balance_2() = Switch on balancing for cell 2
+
+        ## charge() = Switch on Charging
+        ## discharge() = Switch on Discharging
+
+        ## Stop() = Stop all operations
+
+# -----------------------------------Add Your Code/Algorithm here ----------------
 
 
-    # if iteration == 10:
-    #     charge()
-    # elif iteration == 15:
-    #     Discharge()
-    # elif iteration == 20:
-    #     Balance_1()
-    # elif iteration == 25:
-    #     Balance_2()
-    # elif iteration == 30:
-    #     stop()
+
 
 # ----------------------------------- Your Code/Algorithm here ----------------
 
