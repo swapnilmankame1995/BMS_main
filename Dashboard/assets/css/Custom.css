@@ -37,6 +37,13 @@
     height: 100%
 }
 
+
+@media print {
+    html, body {
+        display: inline-block;
+      }
+    }
+
 .app-card-basic .title {
     font-size: 1rem
 }
