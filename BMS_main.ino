@@ -149,5 +149,5 @@ void loop() {
     I2C();
     // CSV format sent to Python
     // Iteration, LM35,Environment/board NTC temperature,Cell 1 Temperature, cell 2 temperature, cell 1 voltage, cell 2 voltage, pack voltage, charging state,discharging state, cell_1 Balancing, Cell_2 Balancing,power,current,bus voltage,Student serial number,Transistor NTC temperature
-    Serial.println((String) Loop + "," +  Temperature_sensor + "," + Te + "," + Tb1 + "," + Tb2 + "," + voltage1 + "," + voltage2 + "," + busvoltage + "," + chargingState + "," + dischargingState + "," + cellOne_balaningState + "," + cellTwo_balaningState + "," + power_mW + "," + current_mA + "," + busvoltage + "," + serial_no + "," + Tt);
+    Serial.println((String) Loop + "," +  abs(Temperature_sensor) + "," + abs(Te) + "," + abs(Tb1) + "," + abs(Tb2) + "," + voltage1 + "," + voltage2 + "," + busvoltage + "," + chargingState + "," + dischargingState + "," + cellOne_balaningState + "," + cellTwo_balaningState + "," + power_mW + "," + current_mA + "," + busvoltage + "," + serial_no + "," + abs(Tt));
 }
